@@ -2,6 +2,7 @@
 
 (defgeneric cell-at (board row column)
   (:documentation "returns the cell at the given row/column, or nil if out of bounds"))
+(defgeneric neighbor-cells (board row column))
 
 (defclass board ()
   ((rows :accessor rows :initarg :rows)
@@ -34,15 +35,25 @@
 	 (<= 0 row (rows self)))
     (aref (cells self) row column)))
 
-(defun make-board (type rows columns)
-  (make-instance 'board :rows rows :columns columns))
+(defmethod neighbor-cells ((self board) row column)
+  `((,(1+ row) ,column)
+    (,row ,(1+ column))
+    (,(1- row) ,column)
+    (,row ,(1- column))))
 
 (defmethod neighbors ((self cell))
-  (with-accessors ((row row) (column column)
+  (with-accessors ((row row)
+		   (column column)
 		   (board board)) self
-    (flatten
-     (list
-      (cell-at board (1+ row) column)
-      (cell-at board row (1+ column))
-      (cell-at board (1- row) column)
-      (cell-at board row (1- column))))))
+    (iter
+      (for (r c) in (neighbor-cells board row column))
+      (for cell = (cell-at board r c))
+      (when cell
+	(collect cell)))))
+
+(defun make-board (rows columns &key (type :square))
+  (make-instance
+   (ecase type
+     (:square 'board)
+     (:hex 'hex-board))
+   :rows rows :columns columns))

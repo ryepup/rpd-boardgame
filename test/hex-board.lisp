@@ -1,12 +1,12 @@
 (in-package #:rpd-boardgame-tests)
 
-(define-test make-board
-  (let ((b (make-board 10 15)))
+(define-test make-board/hex
+  (let ((b (make-board 10 15 :type :hex)))
     (assert-eq 10 (rows b))
     (assert-eq 15 (columns b))))
 
-(define-test cells
-  (let* ((b (make-board 10 15))
+(define-test cells/hex
+  (let* ((b (make-board 10 15 :type :hex))
 	 (c (cell-at b 1 0)))
     (assert-true (not (null c)) )
     (assert-eq b (board c))
@@ -14,13 +14,9 @@
     (assert-eq 0 (column c))
     (assert-equalp #(1 0) (coordinates c))))
 
-(defmacro assert-set-equalp (l1 l2 &rest extras)
-  `(assert-true
-    (set-equal ,l1 ,l2 :test #'equalp)
-    ,@extras))
 
-(define-test neighbors
-  (let* ((b (make-board 10 15))
+(define-test neighbors/hex
+  (let* ((b (make-board 10 15 :type :hex))
 	 (c (cell-at b 0 0))
 	 (neighbors (mapcar #'coordinates
 			    (neighbors c)))
@@ -29,6 +25,9 @@
     (assert-eq 2 (length neighbors))
     (assert-set-equalp (list #(0 1) #(1 0))
 		       neighbors)
-    (assert-eq 4 (length full-set))
-    (assert-set-equalp (list #(2 3) #(4 3) #(3 2) #(3 4))
+    (assert-eq 6 (length full-set))
+    (assert-set-equalp (list
+			#(3 4) #(4 3)
+			#(4 2) #(2 4)
+			#(2 3) #(3 2))
 		       full-set)))
