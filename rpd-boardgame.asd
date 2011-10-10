@@ -10,4 +10,5 @@
     :serial T
     :components
     ((:file "package")
-     (:file "rpd-boardgame")))))
+     (:file "rpd-boardgame")
+     (:file "board")))))

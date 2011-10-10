@@ -7,4 +7,4 @@
 		:test
 		:serial t
 		:components ((:file "package")
-			     (:file "basics")))))
+			     (:file "board")))))
