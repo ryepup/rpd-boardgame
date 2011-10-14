@@ -32,3 +32,11 @@
     (assert-eq 4 (length full-set))
     (assert-set-equalp (list #(2 3) #(4 3) #(3 2) #(3 4))
 		       full-set)))
+
+(define-test vertices
+  (let* ((b (make-board 10 15))
+	 (v (vertices (cell-at b 0 0))))
+    (assert-eq 4 (length v))
+    (assert-set-equalp (list #(0 0) #(1 0)
+			     #(0 1) #(1 1))
+		       v)))

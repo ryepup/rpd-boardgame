@@ -15,5 +15,6 @@
    :column
    :board
    :coordinates
-   :neighbors))
+   :neighbors
+   :vertices))
 

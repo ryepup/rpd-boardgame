@@ -31,3 +31,15 @@
 			#(4 2) #(2 4)
 			#(2 3) #(3 2))
 		       full-set)))
+
+(define-test vertices/hex
+  (let* ((b (make-board 10 15 :type :hex))
+	 (v (vertices (cell-at b 0 0))))
+    (assert-eq 6 (length v)) 
+    (assert-set-equalp (list #(0 0 :l)
+			     #(0 0 :r)
+			     #(1 0 :l)
+			     #(1 -1 :l)
+			     #(-1 0 :r)
+			     #(-1 1 :r))
+		       v)))
