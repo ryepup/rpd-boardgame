@@ -16,5 +16,6 @@
    :board
    :coordinates
    :neighbors
-   :vertices))
+   :vertices
+   :screen-vertices))
 

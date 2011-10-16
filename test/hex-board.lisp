@@ -43,3 +43,14 @@
 			     #(-1 0 :r)
 			     #(-1 1 :r))
 		       v)))
+
+(define-test screen-vertices/hex
+  (let ((b (make-board 10 15 :type :hex)))
+    (assert-set-equalp (list #(-5 0) #(-3 5)
+			     #(3 5) #(5 0)
+			     #(3 -5) #(-3 -5))
+		       (screen-vertices (cell-at b 0 0) 10 10))
+    (assert-set-equalp (list #(-5 0) #(-2 2)
+			     #(2 2) #(5 0)
+			     #(2 -2) #(-2 -2))
+		       (screen-vertices (cell-at b 0 0) 10 5))))

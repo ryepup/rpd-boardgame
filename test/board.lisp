@@ -40,3 +40,12 @@
     (assert-set-equalp (list #(0 0) #(1 0)
 			     #(0 1) #(1 1))
 		       v)))
+
+(define-test screen-vertices
+  (let ((b (make-board 10 15)))
+    (assert-set-equalp (list #(0 0) #(10 0)
+			     #(0 10) #(10 10))
+		       (screen-vertices (cell-at b 0 0) 10 10))
+    (assert-set-equalp (list #(0 0) #(10 0)
+			     #(0 5) #(10 5))
+		       (screen-vertices (cell-at b 0 0) 10 5))))

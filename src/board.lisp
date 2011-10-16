@@ -67,3 +67,9 @@
        #(,(1+ row) ,column)
        #(,row ,(1+ column))
        #(,(1+ row) ,(1+ column)))))
+
+(defmethod screen-vertices ((cell cell) width height)
+  (iter
+    (for coord in (vertices cell))
+    (collect (vector (* (aref coord 0) width)
+		     (* (aref coord 1) height)))))
