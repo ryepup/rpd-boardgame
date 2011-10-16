@@ -11,4 +11,5 @@
     :components
     ((:file "package")
      (:file "rpd-boardgame")
-     (:file "board")))))
+     (:file "board")
+     (:file "hex-board")))))
