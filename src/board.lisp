@@ -20,6 +20,13 @@
 	    (make-instance cell-class :board self
 				      :row row :column col)))))
 
+(defun %do-cells (board fn)
+  (dotimes (i (array-total-size (cells board)))
+    (funcall fn (row-major-aref (cells board) i))))
+
+(defmacro do-cells ((cell-var) board &body body)
+  `(%do-cells ,board #'(lambda (,cell-var) ,@body)))
+
 (defmethod cell-at ((self board) row column)
   (when (and
 	 (<= 0 column (columns self))
