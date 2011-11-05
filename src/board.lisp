@@ -57,6 +57,14 @@
   "returns a #(row col) vector for the cell"
   (vector (row self) (column self)))
 
+(defmethod neighbor-cells :around ((cell cell)) 
+  ;;filter out things off the board
+  (remove-if-not #'(lambda (coord)
+		     (and
+		      (< -1 (car coord) (rows (board cell)))
+		      (< -1 (cadr coord) (columns (board cell)))))
+	     (call-next-method)))
+
 (defmethod neighbor-cells ((cell cell))
   (with-coords (row column cell)
     `((,(1+ row) ,column)
