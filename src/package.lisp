@@ -19,5 +19,7 @@
    :vertices
    :screen-vertices
    :make-screen
-   :do-cells))
+   :do-cells
+   :screen
+   :cell))
 

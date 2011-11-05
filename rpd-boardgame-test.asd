@@ -1,4 +1,4 @@
-;;;; rpd-boardgame.asd
+;;;; rpd-boardgame-test.asd
 
 (asdf:defsystem #:rpd-boardgame-test
   :serial t
