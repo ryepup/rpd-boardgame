@@ -12,4 +12,5 @@
     ((:file "package")
      (:file "rpd-boardgame")
      (:file "board")
-     (:file "hex-board")))))
+     (:file "hex-board")
+     (:file "screen")))))

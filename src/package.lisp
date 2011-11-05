@@ -17,5 +17,7 @@
    :coordinates
    :neighbors
    :vertices
-   :screen-vertices))
+   :screen-vertices
+   :make-screen
+   :do-cells))
 
