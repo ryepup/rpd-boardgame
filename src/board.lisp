@@ -21,8 +21,11 @@
 				      :row row :column col)))))
 
 (defun %do-cells (board fn)
-  (dotimes (i (array-total-size (cells board)))
-    (funcall fn (row-major-aref (cells board) i))))
+  (etypecase board
+    (screen (%do-cells (board board) fn))
+    (board
+     (dotimes (i (array-total-size (cells board)))
+       (funcall fn (row-major-aref (cells board) i))))))
 
 (defmacro do-cells ((cell-var) board &body body)
   `(%do-cells ,board #'(lambda (,cell-var) ,@body)))
