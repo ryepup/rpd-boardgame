@@ -17,6 +17,7 @@
 (defmacro assert-set-equalp (l1 l2 &rest extras)
   `(assert-true
     (set-equal ,l1 ,l2 :test #'equalp)
+    ,l2
     ,@extras))
 
 (define-test neighbors
