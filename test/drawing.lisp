@@ -1,0 +1,35 @@
+(in-package #:rpd-boardgame-tests)
+
+;; a few visual tests
+(defun draw-cells (name board screen)
+  (vecto:with-canvas (:width (+ 20 (rpd-boardgame::width screen))
+		      :height (+ 20 (rpd-boardgame::height screen)))
+    (vecto:set-rgb-fill 1 1 1)
+    (vecto:clear-canvas)
+    (vecto:translate 10 10)
+    (vecto:set-rgb-stroke 0 0 0)
+    (do-cells (c) board
+      (let ((v (screen-vertices c screen)))
+	(apply #'vecto:move-to
+	       (coerce (first v) 'list))
+	(dolist (v (rest v))
+	  (apply #'vecto:line-to
+		 (coerce v 'list))))
+      (vecto:close-subpath)
+      (vecto:stroke))
+    (vecto:save-png (format nil "~a.png" name))))
+
+(defgeneric draw (thing &key &allow-other-keys)
+  (:method ((thing (eql :square)) &key (w 400) (h 400) (r 5) (c 5) &allow-other-keys)
+    (let* ((b (make-board r c))
+	   (s (make-screen b w h)))
+      (draw-cells thing b s)
+      )
+    )
+  (:method ((thing (eql :hex)) &key (w 400) (h 400) (r 5) (c 5) &allow-other-keys)
+    (let* ((b (make-board r c :type :hex))
+	   (s (make-screen b w h)))
+      (draw-cells thing b s)
+      )
+    )
+  )
