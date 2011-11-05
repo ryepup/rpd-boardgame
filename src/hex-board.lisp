@@ -13,11 +13,11 @@
 
 (defparameter +hex-vertex-transform+
   '((0 0 :l)
-    (0 0 :r)
-    (1 0 :l)
     (1 -1 :l)
-    (-1 0 :r)
-    (-1 1 :r)))
+    (1 0 :l)
+    (0 0 :r)
+    (-1 1 :r)
+    (-1 0 :r)))
 
 (defmethod vertices ((cell hex-cell))
   (with-coords (row column cell)
