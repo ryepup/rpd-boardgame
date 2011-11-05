@@ -98,3 +98,41 @@
 			  (* c x-offset)))))
       (for y = (+ face-y (* half-height r)))
       (collect (vector (round x) (round y))))))
+
+(defmethod cell-at ((screen screen) y x)
+  (etypecase (cell-at (board screen) 0 0)
+    (hex-cell
+     (multiple-value-bind
+	   (x-offset half-width half-height height narrow-width)
+	 (screen-vertices/face-metrics screen)
+       (declare (ignore x-offset half-width half-height))
+       (flet ((dist (cell)
+		(multiple-value-bind (face-x face-y) (screen-vertices/face (row cell) (column cell) screen)
+		  (+ (expt (- x face-x) 2)
+		     (expt (- y face-y) 2)))
+		))
+	 (let* ((col (alexandria:clamp (/ x narrow-width)
+				       0 (1- (columns (board screen)))))
+		(row (alexandria:clamp (- (/ y height) (/ col 2))
+				       0 (1- (rows (board screen)))))
+		(c (cell-at (board screen) (floor row) (floor col))))
+	   (when c
+	     ;;find the closest neighbor
+	     (iter
+	       (with winner = c)
+	       (with min-dist = (dist c))
+	       (for cell in (neighbors c))
+	       (for d = (dist cell))
+	       (when (< d min-dist)
+		 (setf min-dist d
+		       winner cell))
+	       (finally (return winner))
+	       ))))))
+    (cell
+     (let ((cell-w (round (/ (width screen) (columns (board screen)))))
+	   (cell-h (round (/ (height screen) (rows (board screen))))))
+       (cell-at (board screen)
+		(floor (/ x cell-w))
+		(floor (/ y cell-h)))))
+    )
+  )
