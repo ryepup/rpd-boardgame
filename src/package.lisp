@@ -21,5 +21,7 @@
    :make-screen
    :do-cells
    :screen
-   :cell))
+   :cell
+   :with-board
+   :*current-board*))
 

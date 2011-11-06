@@ -5,6 +5,12 @@
 (defgeneric neighbor-cells (cell))
 (defgeneric vertices (cell))
 
+(defvar *current-board* nil "the board we're currently working with")
+
+(defmacro with-board ((board) &body body)
+  `(let ((*current-board* ,board))
+     ,@body))
+
 (defclass board ()
   ((rows :accessor rows :initarg :rows)
    (columns :accessor columns :initarg :columns)
