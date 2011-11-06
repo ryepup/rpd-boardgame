@@ -1,2 +1,4 @@
 (defpackage #:rpd-boardgame-sdl
-    (:use #:cl #:iterate #:rpd-boardgame))
+    (:use #:cl #:iterate #:rpd-boardgame)
+    (:export
+     :render))

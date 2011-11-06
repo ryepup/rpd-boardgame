@@ -1,5 +1,29 @@
 (in-package :rpd-boardgame-sdl)
 
+(defmethod render ((coords simple-vector)
+		   &key
+		     ((:surface sdl:*default-surface*) sdl:*default-surface*)
+		     ((:color sdl:*default-color*) sdl:*default-color*)
+		     fill
+		     (board *current-board*)
+		     &allow-other-keys)
+  (assert (not (null board)) nil "Must have a current board.")
+  (render (cell-at board (aref coords 1) (aref coords 0))
+	  :fill fill
+	  :screen (make-screen board (sdl:width sdl:*default-surface*)
+			       (sdl:height sdl:*default-surface*))
+	  )
+  )
+
+(defmethod render ((board board)
+		   &key
+		     ((:surface sdl:*default-surface*) sdl:*default-surface*)
+		     ((:color sdl:*default-color*) sdl:*default-color*)
+		     &allow-other-keys)
+  ;;create a screen based on the surface size
+  (render (make-screen board (sdl:width sdl:*default-surface*)
+		       (sdl:height sdl:*default-surface*))))
+
 (defmethod render ((screen screen)
 		   &key
 		     ((:surface sdl:*default-surface*) sdl:*default-surface*)
@@ -14,6 +38,7 @@
 		     ((:color sdl:*default-color*) sdl:*default-color*)
 		     fill
 		     screen &allow-other-keys)
+  (assert (not (null screen)) screen "must pass in the screen")
   (let ((pts (iter (for v in (screen-vertices cell screen))
 	       (collect (sdl:point :x (svref v 0) :y (svref v 1))))))
     (when fill
