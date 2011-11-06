@@ -111,11 +111,9 @@
 		  (+ (expt (- x face-x) 2)
 		     (expt (- y face-y) 2)))
 		))
-	 (let* ((col (alexandria:clamp (/ x narrow-width)
-				       0 (1- (columns (board screen)))))
-		(row (alexandria:clamp (- (/ y height) (/ col 2))
-				       0 (1- (rows (board screen)))))
-		(c (cell-at (board screen) (floor row) (floor col))))
+	 (let* ((col (/ x narrow-width))
+		(row (- (/ y height) (/ col 2)))
+		(c (ignore-errors (cell-at (board screen) (floor row) (floor col)))))
 	   (when c
 	     ;;find the closest neighbor
 	     (iter
